@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
+    'rest_framework',
     'authen',
-    'rest_framework'
+   
 ]
 
 MIDDLEWARE = [
@@ -85,9 +87,9 @@ DATABASES = {
 }
 
 REST_FRAMEWORK ={
-    'NON_FIELD_ERROR_KEY':'error',
+    'NON_FIELD_ERRORS_KEY':'error',
      'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication')
+        'rest_framework_simplejwt.authentication.JWTAuthentication',)
 }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -129,10 +131,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 8025
-
 DEFAULT_FROM_EMAIL = "tt567258@gmail.com"
 SERVER_EMAIL = "tt567258@gmail.com"
 EMAIL_USE_TLS=True
