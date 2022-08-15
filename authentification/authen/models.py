@@ -1,10 +1,8 @@
-import email
-from msilib.schema import Error
-from operator import mod
-from re import T
+from lib2to3.pgen2 import token
+from os import access
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin,BaseUserManager,AbstractBaseUser
-
+from rest_framework_simplejwt.tokens import RefreshToken
 # Create your models here.
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
@@ -42,8 +40,13 @@ class User(AbstractBaseUser,PermissionsMixin):
     def __str__(self):
         return self.email
 
-    def tokns(self):
-        return ''
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+
+        return {
+            'refresh':str(refresh),
+            'access': str(refresh.access_token)
+        }
 
 
 
