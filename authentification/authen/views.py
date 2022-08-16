@@ -4,6 +4,7 @@ from rest_framework import generics,status,views
 from authen.serilaizers import EmailVerificationSerializer, RegisterSerilaizer ,LoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from .renderers import UserRender
 from .models import User
 from .utlis import util
 from django.contrib.sites.shortcuts import get_current_site
@@ -12,9 +13,12 @@ import jwt
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from .renderers import UserRender
+
 # Create your views here.
 class RegisterView(generics.GenericAPIView):
     authentication_classes = []
+    renderer_classes = (UserRender,)
     serializer_class = RegisterSerilaizer
     def post(self,request):
         user = request.data
