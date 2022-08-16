@@ -1,3 +1,4 @@
+from os import read
 from rest_framework import serializers
 from authen.models import User 
 from django.contrib import auth
@@ -27,7 +28,7 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255,min_length=3)
     password = serializers.CharField(max_length=68,min_length=6,write_only=True)
-    username = serializers.CharField(max_length=255,min_length=3)
+    username = serializers.CharField(max_length=255,min_length=3,read_only=True)
     tokens = serializers.CharField(max_length=255,min_length=3,read_only=True)
 
     class Meta:
@@ -46,6 +47,6 @@ class LoginSerializer(serializers.ModelSerializer):
         return {
             'email':user.email,
             'username': user.username,
-            'token': user.tokens
+            'tokens': user.tokens()
         }
         return super().validate(attrs)
