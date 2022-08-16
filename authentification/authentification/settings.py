@@ -42,9 +42,10 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'authen',
-    'expenses' 
+    'expenses',
+    'income'
 ]
-SWAGGER_SETTINGS={
+SWAGGER_SETTINGS = {
    'SECURITY_DEFINITIONS':{
         'Bearer':{
             'type':'apiKey',
