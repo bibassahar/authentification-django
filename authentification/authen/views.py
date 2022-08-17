@@ -1,8 +1,8 @@
+from shutil import ReadError
 from rest_framework.response import Response
 from rest_framework import generics,status,views
-from authen.serilaizers import EmailVerificationSerializer, RegisterSerilaizer ,LoginSerializer, ResetPPasswordEmailSerializer
+from authen.serilaizers import EmailVerificationSerializer, RegisterSerilaizer ,LoginSerializer, ResetPPasswordEmailSerializer, SetNewPasswordSerialize
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from .renderers import UserRender
 from .models import User
 from .utlis import util
@@ -85,6 +85,7 @@ class PasswordRestEmail(generics.GenericAPIView):
         return Response({'success':'We have sent you a link to reset your password'},status=status.HTTP_200_OK)
 
 class PasswordTokenCheck(generics.GenericAPIView):
+    serializer_class = ResetPPasswordEmailSerializer
     def get(self, request, uidb64, token):
         try:
             id=smart_str(urlsafe_base64_decode(uidb64))
@@ -92,9 +93,13 @@ class PasswordTokenCheck(generics.GenericAPIView):
             if not PasswordResetTokenGenerator().check_token(user,token):
                 return Response({ 'error': 'Token is not valid,please request a new one'},status=status.HTTP_401_UNAUTHORIZED)
             return Response({'success': True,'message': 'Credentials Valid', 'uidb64': uidb64,'token':token, },status=status.HTTP_200_OK)
-        except DjangoUnicodeDecodeError as identifier:
-            if PasswordResetTokenGenerator().check_token(user):
+        except DjangoUnicodeDecodeError as ex:
+            if PasswordResetTokenGenerator():
                 return Response ({'error': 'Token is not valid,please request a new one'},status=status.HTTP_401_UNAUTHORIZED)
 
-
-
+class SetNewPasswordApiView(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerialize
+    def patch(self,request):
+        serilaizer = self.serializer_class(data=request.data)
+        serilaizer.is_valid(raise_exception=True)
+        return Response({'success':True,'message':'Password resert success'},status=status.HTTP_200_OK)
