@@ -1,8 +1,18 @@
-from os import read
 from rest_framework import serializers
 from authen.models import User 
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import smart_str,force_str,smart_bytes,DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
+from .utlis import util
+import pdb
+
+
+
+
 
 class RegisterSerilaizer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=120,min_length=6,write_only=True)
@@ -30,7 +40,6 @@ class LoginSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68,min_length=6,write_only=True)
     username = serializers.CharField(max_length=255,min_length=3,read_only=True)
     tokens = serializers.CharField(max_length=255,min_length=3,read_only=True)
-
     class Meta:
         model = User
         fields = ['email','password','username','tokens']
@@ -50,3 +59,8 @@ class LoginSerializer(serializers.ModelSerializer):
             'tokens': user.tokens()
         }
         return super().validate(attrs)
+
+class ResetPPasswordEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=2)
+    class Meta:
+        fields = ['email']
