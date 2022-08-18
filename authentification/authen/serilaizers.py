@@ -1,5 +1,6 @@
 from lib2to3.pgen2 import token
 from logging import exception
+from urllib.request import HTTPBasicAuthHandler
 from rest_framework import serializers
 from authen.models import User 
 from django.contrib import auth
@@ -88,4 +89,3 @@ class SetNewPasswordSerialize(serializers.Serializer):
         except Exception as exp:
             raise AuthenticationFailed('The reset link is invalide',401)
         return super().validate(attrs)
-
