@@ -6,6 +6,7 @@ from authen import views
 urlpatterns=[
     path('register/',views.RegisterView.as_view(),name='register'),
     path('login/',views.LoginApiView.as_view(),name='login'),
+    path('logout/', views.LogoutAPIView.as_view(), name="logout"),
     path('verify-email/',views.VerifyEmail.as_view(),name='verify-email'),
     path('token/refresh/',TokenRefreshView.as_view(),name='token-refresh'),
     path('request-reset-email/',views.PasswordRestEmail.as_view(), name='request-reset-email'),
