@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-z)j!6rc(*2qk3f1tc3dw0uzq$!o45yz2$=#*e^(ob($y6q+9yv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['198.211.99.20','127.0.0.1']
 
 AUTH_USER_MODEL = "authen.User"
 
@@ -104,6 +104,7 @@ REST_FRAMEWORK ={
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5,
     'NON_FIELD_ERRORS_KEY':'error',
+    'EXCEPTION_HANDLER':'utils.exceptionhandler.custom_exception_handler',
      'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',),
 }
